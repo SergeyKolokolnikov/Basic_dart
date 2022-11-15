@@ -375,6 +375,8 @@ class Util {
     userManager.add(user4);
     userManager.add(user5);
     userManager.add(user6);
+    userManager.remove(user5);
+
     print("8.2 All users:");
     userManager.showAll();
   }
