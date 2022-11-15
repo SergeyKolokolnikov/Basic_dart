@@ -6,7 +6,71 @@ void main() {
   util.test();
 }
 
+//MARK: - User
+class User with EmailDomain { 
+  late String email;
 
+  User(email): super() {
+    this.email = email;
+    super.email = email;
+  }
+}
+
+class AdminUser extends User {
+
+    AdminUser(email): super(email) {
+      this.email = email;
+      super.email = email;
+    }
+}
+
+class GeneralUser extends User {
+    
+    GeneralUser(email): super(email) {
+      this.email = email;
+      super.email = email;
+    }
+
+}
+
+class EmailDomain {
+    String email = '';
+    String getMailSystem() {
+        var list = email.split('@');
+        if (list.length > 1) {
+          String domain = list[1];
+          return domain;
+        }
+        return '';
+    }
+}
+
+class UserManager<T extends User> {
+
+  List<User> list = [];
+
+  void add(User user) {
+    list.add(user);
+  }
+
+  void remove(User user) {
+    list.remove(user);
+  }
+
+  void showAll() {
+
+    for (var i = 0; i <= (list.length - 1); i++) {
+      var user = list[i];
+      var email = user.email;
+      bool isAdmin = user is AdminUser;
+      var prefix = isAdmin ? '@':'';
+      print('$prefix$email');
+    }
+
+  }
+}
+
+//MARK: - Extensions
 extension numExtension on num {
   num nthRoot(double n) {
     num nthRoot = pow(this, (1/n));
@@ -14,13 +78,10 @@ extension numExtension on num {
   }
 }
 
+//MARK: - 
 class RootDegreeException implements Exception {
   String cause;
   RootDegreeException(this.cause);
-}
-
-class PoiUsernt { 
-  late String email;
 }
 
 class Point {
@@ -39,6 +100,7 @@ class Point {
   }
 }
 
+//MARK: - 
 class Util {
 
   int gcd(int a, int b) {
@@ -218,6 +280,8 @@ class Util {
     testListString2num(); //5.2
     testDistanceToPoint(); //6
     testRootOfNumberFromDegree(); //7
+    testGetDomainEmail(); //8.1
+    testListUsers(); //8.2
   }
 
   void testGCD() {
@@ -286,5 +350,32 @@ class Util {
     double n = 4;
     var result = a.nthRoot(n);
     print("7. nth root of $a from Degree $n = $result");
+  }
+
+  void testGetDomainEmail() {
+    var email = 'admin@mail.ru';
+    User user = AdminUser(email);
+    String result = user.getMailSystem();
+    print("8.1 Domain from $email is $result");
+  }
+
+  void testListUsers() {
+
+    var user1 = User('user1@mail.ru');
+    var user2 = AdminUser('user2@mail.ru');
+    var user3 = AdminUser('user3@mail.ru');
+    var user4 = GeneralUser('user4@mail.ru');
+    var user5 = User('user5@mail.ru');
+    var user6 = GeneralUser('user6@mail.ru');
+
+    var userManager = UserManager();
+    userManager.add(user1);
+    userManager.add(user2);
+    userManager.add(user3);
+    userManager.add(user4);
+    userManager.add(user5);
+    userManager.add(user6);
+    print("8.2 All users:");
+    userManager.showAll();
   }
 }
